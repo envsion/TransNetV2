@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import tensorflow as tf
+import logging
 
 
 class TransNetV2:
@@ -61,11 +62,10 @@ class TransNetV2:
             predictions.append((single_frame_pred.numpy()[0, 25:75, 0],
                                 all_frames_pred.numpy()[0, 25:75, 0]))
 
-            print("\r[TransNetV2] Processing video frames {}/{}".format(
+            logging.info("\r[TransNetV2] Processing video frames {}/{}".format(
                 min(len(predictions) * 50, len(frames)), len(frames)
             ), end="")
-        print("")
-
+        
         single_frame_pred = np.concatenate([single_ for single_, all_ in predictions])
         all_frames_pred = np.concatenate([all_ for single_, all_ in predictions])
 
@@ -79,7 +79,7 @@ class TransNetV2:
                                       "individual frames from video file. Install `ffmpeg` command line tool and then "
                                       "install python wrapper by `pip install ffmpeg-python`.")
 
-        print("[TransNetV2] Extracting frames from {}".format(video_fn))
+        logging.info("[TransNetV2] Extracting frames from {}".format(video_fn))
         video_stream, err = ffmpeg.input(video_fn).output(
             "pipe:", format="rawvideo", pix_fmt="rgb24", s="48x27"
         ).run(capture_stdout=True, capture_stderr=True)
