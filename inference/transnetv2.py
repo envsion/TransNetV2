@@ -64,7 +64,7 @@ class TransNetV2:
 
             logging.info("\r[TransNetV2] Processing video frames {}/{}".format(
                 min(len(predictions) * 50, len(frames)), len(frames)
-            ), end="")
+            ))
         
         single_frame_pred = np.concatenate([single_ for single_, all_ in predictions])
         all_frames_pred = np.concatenate([all_ for single_, all_ in predictions])
